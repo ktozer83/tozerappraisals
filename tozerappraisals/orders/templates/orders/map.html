@@ -1,0 +1,17 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+	<div class="row-fluid">
+		<div class="offset1 span8 well well-small text-center">
+			<img src='{{ map_url }}' />
+			<p>Note: This map may not be accurate if the address cannot be found.</p>
+		</div>
+		<div id="controlPanel" class="span3 text-center">
+			<a href="/order/{{ order.orderID }}" class="buttonLink">
+				<span class="ui-icon ui-icon-arrow-1-w"></span><span class="linkText">Back</span>
+			</a>
+		</div>
+	</div>
+{% endblock %}

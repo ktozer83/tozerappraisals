@@ -1,0 +1,19 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+	<div id="loginArea" class="span4 offset4">
+		<span id="loginTitle">Login</span>
+	    <form id="form" action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+	            {{ login_form.as_p }}
+	        <input class="buttonLink" type="submit" value="Login" />
+	        <p class="text-center"><label for="rememberMe">
+	        	<input type="checkbox" value="1" name="rememberMe" id="rememberMe">Remember Me
+	        </label></p>
+	    </form>
+	    <span id="forgotPass">
+	    	<a href="/register">register</a> | <a href="/forgot">forgot password?</a>
+	    </span>
+	</div>
+{% endblock %}

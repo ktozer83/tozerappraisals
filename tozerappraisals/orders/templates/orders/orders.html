@@ -1,0 +1,151 @@
+{% extends 'pages/base.html' %}
+
+{% load orders_extras %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content%}
+<div class="row-fluid">
+	<div class="span9">
+	{% if all_orders %}
+	<!-- list all orders as long as there are orders -->
+	    <table class="table">
+	    	<thead>
+		        <tr>
+		        	{# orderID links #}
+		        	{% if sort_by == '-orderID' %}
+		        		<th class="sort_asc"><a href='/orders/{{ all_orders.number }}/?sort=orderID'>ID</a></th>
+		        	{% elif sort_by == 'orderID' %}
+		        		<th class="sort_desc"><a href='/orders/{{ all_orders.number }}/?sort=-orderID'>ID</a></th>
+		        	{% else %}
+		        		<th><a href='/orders/{{ all_orders.number }}/?sort=-orderID'>ID</a></th>
+		        	{% endif %}
+		        	{# applicantName links #}
+		        	{% if sort_by == '-applicantName' %}
+		            	<th class="sort_asc"><a href='/orders/{{ all_orders.number }}/?sort=applicantName'>Name</a></th>
+		        	{% elif sort_by == 'applicantName' %}
+		            	<th class="sort_desc"><a href='/orders/{{ all_orders.number }}/?sort=-applicantName'>Name</a></th>
+		            {% else %}
+		            	<th><a href='/orders/{{ all_orders.number }}/?sort=-applicantName'>Name</a></th>	
+		        	{% endif %}
+		        	{# address links #}
+		        	{% if sort_by == '-address' %}
+		            	<th class="sort_asc"><a href='/orders/{{ all_orders.number }}/?sort=address'>Address</a></th>
+		        	{% elif sort_by == 'address' %}
+		            	<th class="sort_desc"><a href='/orders/{{ all_orders.number }}/?sort=-address'>Address</a></th>
+		            {% else %}
+		            	<th><a href='/orders/{{ all_orders.number }}/?sort=-address'>Address</a></th>
+		        	{% endif %}
+		        	{# status links #}
+		        	{% if sort_by == '-status' %}
+		            	<th class="sort_asc"><a href='/orders/{{ all_orders.number }}/?sort=status'>Status</a></th>
+		        	{% elif sort_by == 'status' %}
+		            	<th class="sort_desc"><a href='/orders/{{ all_orders.number }}/?sort=-status'>Status</a></th>
+		            {% else %}
+		            	<th><a href='/orders/{{ all_orders.number }}/?sort=-status'>Status</a></th>
+		        	{% endif %}
+		        </tr>
+	        </thead>
+	        <tbody>
+	        {% for order in all_orders %}
+		        <tr class="tableRow" onclick="document.location ='{% url 'ViewOrder' order.orderID %}';">
+		        	<td>
+		        		<a href="{% url 'ViewOrder' order.orderID %}">{{ order.orderID|title }}</a>
+		        	</td>
+		            <td>
+		                <a href="{% url 'ViewOrder' order.orderID %}">{{ order.applicantName|title }}</a>
+		            </td>
+		            <td>
+		                <a href="{% url 'ViewOrder' order.orderID %}">{{ order.address|title }}</a>
+		            </td>
+		            <td>
+		                <a href="{% url 'ViewOrder' order.orderID %}">
+		                	{{ order.status|get_status }}
+		                </a>
+		                {% if order.viewed == 0 %}
+		                <span class="label label-success">{{ viewed_row|get_item:order.viewed }}</span>
+		                {% endif %}
+		                {% if not perms.view_any_order %}
+		                	<span class="label label-info">{{ updated_row|get_item:order.updated }}</span>
+		                {% endif %}
+		            </td>
+		        </tr>
+		{% endfor %}
+	        </tbody>
+	    </table>
+	    <!-- pagination -->
+	    <div class="pagination">
+	        <p class="step-links">
+	            {% if all_orders.number != 1 and all_orders.number != 2 %}
+	            <!-- if current page is not first or second page display first page link -->
+	                <a href="/orders/1{% if sort_by %}/?sort={{ sort_by }}{% endif %}">&lt;&lt;</a>
+	            {% endif %}
+	            {% if all_orders.has_previous %}
+	            <!-- previous page link if needed -->
+	                <a href="/orders/{{ all_orders.previous_page_number }}{% if sort_by %}/?sort={{ sort_by }}{% endif %}">&lt;</a>
+	            {% endif %}
+	            <!-- display current page -->
+	            <span class="current">
+	                {{ all_orders.number }} of {{ all_orders.paginator.num_pages }}
+	            </span>
+	            {% if all_orders.has_next %}
+	            <!-- display next link if needed -->
+	                <a href="/orders/{{ all_orders.next_page_number }}{% if sort_by %}/?sort={{ sort_by }}{% endif %}">&gt;</a>
+	            {% endif %}     
+	            {% if all_orders.number != all_orders.paginator.num_pages and all_orders.number != all_orders.paginator.num_pages|add:'-1' %}
+	            <!-- if current page is not last page or second last page display last page link -->
+	                <a href="/orders/{{ all_orders.paginator.num_pages }}{% if sort_by %}/?sort={{ sort_by }}{% endif %}">&gt;&gt;</a>
+	            {% endif %}
+	        </p>
+	    </div>
+	{% else %}
+	<!-- no orders found -->
+	<div class="offset3 span6 well well-small">
+		<p class="text-center">No orders found.</p>
+	</div>
+	{% endif %}
+	</div>
+	<div class="span3 pull-right text-center">
+		<div id="controlPanel" class="span12 well well-small">
+			<h5 class="alert-success">Hello <span id="username">{{ user.username }}!</span></h5>			
+			{% if perms.can_do_anything %}
+			<p class="alert-info">You are logged in as a superuser.</p>
+			{% endif %}
+			{% if perms.orders.add_order %}
+			<a href="/order/new" class="buttonLink">
+				<span class="ui-icon ui-icon-plus"></span><span class="linkText">Submit Order</span>
+			</a>
+			{% endif %}
+			{% if perms.auth.view_all_users %}
+			<a href="/users/pending" class="buttonLink">
+				<span class="label label-info">{{ num_pending_users }}</span> Pending Users
+			</a>
+			<a href="/users" class="buttonLink">
+				<span class="ui-icon ui-icon-person"></span><span class="linkText">User Accounts</span>
+			</a>
+			<a href="/uploadReport" class="buttonLink">
+				<span class="ui-icon ui-icon-document"></span><span class="linkText">Upload Report</span>
+			</a>
+			{% endif %}
+			<a href="/account" class="buttonLink">
+				<span class="ui-icon ui-icon-gear"></span><span class="linkText">Account Settings</span>
+			</a>
+			<a href="/logout" class="buttonLink">
+				<span class="ui-icon ui-icon-close"></span><span class="linkText">Logout</span>
+			</a>
+			<div id="gotoOrder" class="alert-info text-center">
+				<form method="post" action="" enctype="multipart/form-data">{% csrf_token %}
+					{{ goto_order_form.as_p }}
+					<input type="submit" value="Go" class="buttonLink" />
+				</form>	
+			</div>
+			<p>
+				{{ welcome_message }} 
+			</p>
+			{% if perms.welcomemessage.edit_welcome_message %}
+			<a href="/editwelcome" class="buttonLink">Edit Welcome Message</a>
+			{% endif %}
+		</div>
+	</div>
+</div>
+{% endblock%}

@@ -1,0 +1,124 @@
+{% load staticfiles %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>{{ page_title|title }} | Tozer Appraisal Services</title>
+        <meta name="description" content="We are a full service residential real estate appraisal company that publishes appraisals primarily for purposes of financing, relocation, marital and estate settlements, asset management, and purchase/sale agreements."/>        
+        <!-- Bootstrap -->
+		<!-- the bootstrap css itself -->
+		<link href="{% static 'pages/bootstrap.css' %}" rel="stylesheet" media="screen" type="text/css" />
+		<!-- jqueryui & css -->
+		<link rel="stylesheet" href="{% static 'pages/style.css' %}" type="text/css" media="screen" charset="utf-8" />
+		<link rel="stylesheet" href="{% static 'pages/jquery-ui-1.10.3.custom.css' %}" type="text/css" media="screen" charset="utf-8" />
+        <!-- custom fonts -->
+        <link href='http://fonts.googleapis.com/css?family=Raleway:300,400|Open+Sans+Condensed:300|Dosis' rel='stylesheet' type='text/css'>
+    </head>
+    <body>
+        <!-- navigation -->
+		<div class="navbar navbar-fixed-top">
+			<div class="navbar-content row-fluid">
+				<div class="span12">					
+					<ul class="nav pull-left">
+						{% if user.is_authenticated %}
+							<li>
+								<a href="/orders">{{ user.username }}</a>
+							</li>
+							<li>
+								<a href="/logout">Logout</a>
+							</li>
+						{% else %}
+							<li>
+								<a href="/login">Login</a>								
+							</li>
+							<li>
+								<a href="/register">Register</a>
+							</li>
+						{% endif %}
+					</ul>
+					<ul class="nav pull-right">
+						<li><a href="/">Home</a></li>
+						<li><a href="/about">About</a></li>
+						<li><a href="/services">Services</a></li>
+					<li><a href="/contact">Contact</a></li>
+					</ul>					
+				</div>
+			</div>				
+		</div>
+		<!-- end of navigation -->
+		
+		<!-- container -->
+		<div id="container_bg">
+			<div id="container" class="container-fluid">
+				<div class="row-fluid">
+					<div class="span12">						
+						<!-- header -->
+						<div class="page-header row-fluid">
+							<div class="span12">
+								<a href="/">
+									<h1>Tozer Appraisal Services LTD</h1>
+								</a>
+							</div>
+						</div>
+						<!-- end of header -->
+						<div class="row-fluid">
+							{% if page_heading %}
+							<div class="span6">
+								<h3><a href="/{{ title_link }}">{{ page_heading|title }}</a></h3>
+							</div>
+							{% endif %}
+						</div>
+						{% if messages %}
+                        <ul class="messages offset2 span8">
+                            {% for message in messages %}
+                                <li {% if message.tags %} class="{{ message.tags }}"{% endif %} >
+                                    {{ message }}
+                                </li>
+                            {% endfor %}
+                        </ul>
+                        {% endif %}
+                        <!-- content -->
+                        {% block content %}{% endblock %}                  	
+      				</div>
+				</div>
+			</div>
+		</div>
+		<!-- end of container -->
+		
+		<!-- footer -->
+		<div id="footer" class="row-fluid">
+			<div id="footerContent">
+				<div class="span7">
+					<p>Copyright &copy; 2008-{% now "o" %} Tozer Appraisal Services Ltd.</p>
+				</div>
+				<div class="span5 text-right">
+					<p><a href="/">Home</a> | 
+					<a href="/services">Services</a> | 
+					<a href="/faq">FAQ</a> | 
+					<a href="/contact">Contact Us</a></p>
+					<p>Tel: (705)745-6161<br/>Email: <a href="mailto:info@tozerappraisals.com">info@tozerappraisals.com</a></p>
+				</div>
+			</div>
+		</div>
+        
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+	    <script src="https://code.jquery.com/jquery.js"></script>
+	    <!-- Include all compiled plugins (below), or include individual files as needed -->
+	    <script src="{% static 'pages/bootstrap.min.js' %}"></script>
+        <script src="{% static 'pages/jquery-ui-1.10.3.custom.js' %}"></script>
+        <script type="text/javascript">
+        	setTimeout(function() {
+				$( ".messages" ).fadeOut( "slow" );
+			}, 15000);
+
+			(function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
+			(i[r].q=i[r].q||[]).push(arguments);},i[r].l=1*new Date();a=s.createElement(o),
+			m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m);
+			})(window,document,'script','//www.google-analytics.com/analytics.js','ga');
+			
+			ga('create', 'UA-55017432-2', 'auto');
+			ga('send', 'pageview');
+        </script>
+        {% block script %}{% endblock %}
+    </body>
+</html>

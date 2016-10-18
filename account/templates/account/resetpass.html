@@ -1,0 +1,16 @@
+{% extends 'pages/base.html' %}
+
+{% block title%}{{ page_title }}{% endblock %}
+
+{% block content %}
+	<div class="offset3 span6 well well-small">
+		<p class="text-center">
+			Please enter a new password using the form below. Once your password is changed you will be redirected 
+			to the login page.
+		</p>
+		<form id="form" action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+			{{ reset_form.as_p }}
+			<input type="submit" value="Change Password" class="buttonLink" />
+		</form>
+	</div>
+{% endblock %}

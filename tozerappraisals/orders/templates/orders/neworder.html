@@ -1,0 +1,42 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+	<div class="row-fluid">
+		<div class="span12">
+			<ul class="breadcrumb">
+				<li><a href="/orders">Orders</a><span class="divider"> / </span></li>
+				<li class="active">New</li>
+			</ul>
+		</div>
+	</div>
+	<div class="row-fluid">
+		<div class="offset3 span6 well well-small">
+			<p class="text-center">
+				Every field is required except for comments. If the appraisal is needed as soon
+				as possible, please note that in the comments.
+			</p>
+			<form method="post" action="" enctype="multipart/form-data">{% csrf_token %}
+				{{ new_order_form.as_p}}
+				<p>
+					<label for="id_comments">Comments:</label>
+					<textarea id="id_comments" rows="10" name="comments" cols="40"></textarea>
+				</p>
+				<input type="submit" class="buttonLink" value="Submit Order" />
+			</form>
+		</div>
+		<div id="controlPanel" class="span3 pull-right text-center">
+			<a href="/orders/" class="buttonLink">
+				<span class="ui-icon ui-icon-arrow-1-w"></span><span class="linkText">Back</span>
+			</a>
+		</div>
+	</div>
+{% endblock %}
+{% block script %}
+	<script>
+		$(function() {
+			$( "#id_dueDate" ).datepicker({ gotoCurrent: true, dateFormat: "yy/mm/dd", minDate: "0w", maxDate: "+8w" });
+		});
+	</script>
+{% endblock %}

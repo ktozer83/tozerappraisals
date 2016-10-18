@@ -1,0 +1,40 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+	<!-- breadcrumb -->
+	<div class="row-fluid">
+		<div class="span12">
+			<ul class="breadcrumb">
+				<li><a href="/">Home</a> <span class="divider">/</span></li>
+				<li><a href="/services">Services</a> <span class="divider">/</span></li>
+				<li class="active">Coverage Area</li>
+			</ul>
+		</div>
+	</div>
+	<div class="row-fluid">
+		<div class="span3">
+			<ul id="servicesMenu" class="unstyled">
+				<a href="/services/facts"><li>Appraisal Facts<span class="ui-icon ui-icon-arrowthick-1-e"></span></li></a>
+				<li>Coverage Area</li>
+				<a href="/services"><li>What We Offer<span class="ui-icon ui-icon-arrowthick-1-e"></span></li></a>
+			</ul>
+		</div>
+		<div class="span9 well well-small">
+			<p>
+				We service the Peterborough area south to Lake Ontario (including Port Hope and Cobourg), north to Bancroft, 
+				west to the Lindsay area, and east to Marmora. 
+			</p>
+			<p class="text-center">
+				Below is a map of the area we cover. Click image to enlarge for a more detailed view.
+			</p>
+			<p class="text-center">
+				<a target="_self" href="/static/pages/coverage_area.png">
+					<img id="coverage_thumb" src="/static/pages/coverage_thumb.jpg" title="Map of Coverage Area" 
+					alt="Map of Coverage Area" />
+				</a>
+			</p>
+		</div>
+	</div>
+{% endblock %}

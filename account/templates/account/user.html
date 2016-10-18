@@ -1,0 +1,50 @@
+{% extends 'pages/base.html' %}
+
+{% block title%}{{ page_title }}{% endblock %}
+
+{% block content %}
+	<!-- breadcrumb -->
+	<div class="row-fluid">
+		<div class="span12">
+			<ul class="breadcrumb">
+				<li><a href="/">Home</a> <span class="divider">/</span></li>
+				<li><a href="/users">Users</a> <span class="divider">/</span></li>
+				<li class="active">{{ username }}</li>
+			</ul>
+		</div>
+	</div>
+	<div class="row-fluid">
+		<div class="offset3 span5 well well-small">
+			<form action="" method="post">{% csrf_token %}
+				<span class="form_align_right">
+					{{ edit_user_form.as_p }}
+				</span>
+				<p class="text-center profile-buttons">
+					{% if approved == 0 %}
+					Status: Pending<br/>
+					<a href="?u=approve"><span class="label label-success">Approve</span></a>
+					<a href="?u=deny"><span class="label label-important">Deny</span></a>
+					{% endif %}
+					{% if approved == 1 %}
+					Status: Approved<br/>
+			    	<a href="?u=ban"><span class="label label-important">Ban User</span></a>
+			    	{% endif %}
+			    	{% if approved == 2 %}
+			    	Status: Banned<br/>
+			    	<a href="?u=unban"><span class="label label-success">Unban User</span></a>
+			    	{% endif %}
+				</p>
+				<input class="buttonLink" type="submit" value="Save Changes" />
+			</form>
+		</div>
+		<div id="controlPanel" class="span3 pull-right text-center">
+			<a href="/user/{{ userid }}/delete" class="buttonLink">
+				<span class="ui-icon ui-icon-trash"></span><span class="linkText">Delete User</span>
+			</a>
+			<br/>
+			<a href="/users/" class="buttonLink">
+				<span class="ui-icon ui-icon-arrow-1-w"></span><span class="linkText">Back</span>
+			</a>
+		</div>
+	</div>
+{% endblock %}

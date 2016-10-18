@@ -1,0 +1,15 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+	<div class="offset3 span6 text-center">
+		<h3>Don't Panic!</h3>
+		<p class="text-center alert-info">
+			The page you are looking for cannot be found.<br/>
+			Please make sure the url was typed correctly, or, if you feel you've reached this page in error please
+			<a href="/contact">contact us</a> and let us know what happened.
+		</p>
+		<a class="text-right" href="/">Home</a>
+	</div>
+{% endblock %}

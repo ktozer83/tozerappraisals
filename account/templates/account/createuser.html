@@ -1,0 +1,33 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+	<!-- breadcrumb -->
+	<div class="row-fluid">
+		<div class="span12">
+			<ul class="breadcrumb">
+				<li><a href="/">Home</a> <span class="divider">/</span></li>
+				<li><a href="/users">Users</a> <span class="divider">/</span></li>
+				<li class="active">Create</li>
+			</ul>
+		</div>
+	</div>
+	<div class="row-fluid">
+		<div class="offset3 span6 well well-small">
+			<p class="text-center">User the form below to create a user. The username and email address must be unique.</p>
+			<form id="registerform" action="" method="post">{% csrf_token %}
+				{{ create_user_form.as_p }}
+				<input type="submit" value="Create User" class="buttonLink" />
+			</form>
+			<p class="text-center">
+				A password will be automatically generated for the user and will be sent in the e-mail to the new user.
+			</p>
+		</div>
+		<div id="controlPanel" class="span3 pull-right text-center">
+			<a href="/users" class="buttonLink">
+				<span class="ui-icon ui-icon-arrow-1-w"></span><span class="linkText">Back</span>
+			</a>
+		</div>
+	</div>
+{% endblock %}

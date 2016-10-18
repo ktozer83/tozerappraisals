@@ -1,0 +1,48 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+	<!-- breadcrumb -->
+	<div class="row-fluid">
+		<div class="span12">
+			<ul class="breadcrumb">
+				<li><a href="/">Home</a> <span class="divider">/</span></li>
+				<li class="active">Services</li>
+			</ul>
+		</div>
+	</div>
+	<div class="row-fluid">
+		<div class="span3">
+			<ul id="servicesMenu" class="unstyled">
+				<a href="/services/facts"><li>Appraisal Facts<span class="ui-icon ui-icon-arrowthick-1-e"></span></li></a>
+				<a href="/services/coverage"><li>Coverage Area<span class="ui-icon ui-icon-arrowthick-1-e"></span></li></a>
+				<li>What We Offer</li>
+			</ul>
+		</div>
+		<div class="span9 well well-small">
+			<h3>What We Offer</h3>
+			<p>
+				Sound decisions are best made with quality information.  Real estate is often the largest asset the average Canadian 
+				owns.  As time goes on there are often decisions that must be made with respect to property ownership.  Sell or rent?  
+				What kind of financing can be achieved?  Does a particular property fit in a portfolio?  What are the tax consequences 
+				of selling a property?  Our appraisals can help answer these and other important real estate questions.  Our strength 
+				lies in our ability to provide you with unbiased and informative reports.  We service the general Peterborough area and 
+				have membership in three local real estate boards as well as the Appraisal Institute of Canada.  We have produced 
+				literally thousands of reports over the years and as a result are well acquainted with our coverage area.  Our main 
+				clientele are the major financial institutions, a number of relocation companies, mortgage brokers, lawyers, and 
+				property owners. 
+			</p>
+			<p>
+				We provide services in such areas as:
+				<ul>
+					<li>Residential property reports (single family up to 4 unit dwellings)</li>
+					<li> New constructions or "to be renovated"</li>
+					<li>  Land Appraisals</li>
+					<li> Estate, Divorce, Relocation, Property Assessment Appeals, etc</li>
+					<li> Consulting</li>
+				</ul> 
+			</p>
+		</div>
+	</div>
+{% endblock %}

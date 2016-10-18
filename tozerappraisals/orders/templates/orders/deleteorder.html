@@ -1,0 +1,25 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+	<div class="row-fluid">
+		<div class="span12">
+			<ul class="breadcrumb">
+				<li><a href="/orders">Orders</a><span class="divider"> / </span></li>
+				<li><a href="/order/{{ order.orderID }}">{{ order.address|title}}</a><span class="divider"> / </span></li>
+				<li class="active">Delete</li>
+			</ul>
+		</div>
+	</div>
+	<div class="offset3 span6 text-center well well-small">
+		<p>Deleting an order cannot be undone..</p>
+		<p>Are you sure you want to delete order {{ order.orderID }}?</p>
+		<div class="offset4 span4">
+			<form method="post" action="" enctype="multipart/form-data">{% csrf_token %}
+				{{ delete_form.as_p}}
+				<input type="submit" class="buttonLink" value="Delete" />
+			</form>
+		</div>
+	</div>
+{% endblock %}

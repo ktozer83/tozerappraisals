@@ -1,0 +1,25 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+	<div class="row-fluid">
+		<div class="offset3 span6 well well-small">
+			<p class="text-center">
+				Your username will be your first name dot(.) your last name.
+				<br/>
+				eg. john.doe
+			</p>
+		    <form id="registerform" action="" method="post">{% csrf_token %}
+		        <span class="form_align_right">
+		            {{ register_form.as_p }}
+		        </span>
+		        <input class="buttonLink" type="submit" value="Register" />
+		    </form>
+		    <p class="text-center">
+		    	If you have already created an account but you don't remember the password <a href="/forgot">click here</a>
+				to reset your password.
+		    </p>
+		</div>
+	</div>
+{% endblock %}

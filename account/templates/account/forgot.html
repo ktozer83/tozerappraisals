@@ -1,0 +1,16 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+	<div class="offset3 span6 well well-small">
+		<p class="text-center">
+			To reset your password please enter your email address that is associated with your account and
+			you will receive an email with further instructions.
+		</p>
+		<form class="offset3 span6" id="forgotForm" action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+			{{ forgot_form.as_p}}
+			<input type="submit" value="Send Email" class="buttonLink" />
+		</form>
+	</div>
+{% endblock %}

@@ -1,0 +1,25 @@
+{% extends 'pages/blank.html' %}
+
+{% load orders_extras %}
+{% load tz %}
+
+{% block content %}
+<h3>Tozer Appraisal Services Ltd.</h3>
+<div id="printOrder">
+	<p>{{ order.applicantName|title }} / {{ order.contactNum|phonenumber }}</p>
+	<p>{{ order.address|title }}, {{ order.city|title }}</p>
+	<p>Status: {{ order.status|get_status }}</p>
+	<p>Due Date: {{ order.dueDate }}</p>
+	<p>Appraisal Type: {{ order.appType }}</p>
+	<p>{{ contacted_row|get_item:order.contacted }}</p>
+	<p>Inspection: {{ order.inspectionDate|default:"No Inspection Set" }}</p>
+	<p>Order Number: {{ order.orderID }}</p>
+	<p>Order placed {% localtime off %}{{ order.orderDate|date:"F d, o" }}{% endlocaltime %} by {{ order.username }}</p>
+</div>
+<p class="text-center">
+	<input type="button" onClick="window.print()" value="Print" />
+</p>
+<p class="text-center">
+	<a href="/order/{{ order.orderID}}">Back</a>
+</p>
+{% endblock %}

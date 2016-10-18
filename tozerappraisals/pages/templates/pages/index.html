@@ -1,0 +1,87 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+	<div class="row-fluid clearfix">
+		<!-- left content -->
+		<div id="welcome" class="span8">
+			<!-- hero unit -->
+			<div class="hero-unit text-center">
+				<h2>Welcome!</h2>
+				<p class="lead">
+					We are a full service residential real estate appraisal company that publishes appraisals 
+					primarily for purposes of financing, relocation, marital and estate settlements, asset 
+					management, and purchase/sale agreements.   
+				</p>
+			</div>
+			<!-- end hero unit -->
+			<!-- intro text -->
+			<div class="well text-center">
+				<p>
+					Our company began operating in 1972.  We service the general Peterborough area and have membership 
+					in three local real estate boards as well as the Appraisal Institute of Canada.  We have produced 
+					literally thousands of reports over the years and as a result are well acquainted with our coverage area. 
+					Our strength lies in our ability to provide you with unbiased and informed valuations.  Our main clientele 
+					are the major financial institutions, a number of relocation companies, mortgage brokers, and lawyers.  
+					Our coverage area extends from Peterborough southerly to Lake Ontario, east to Marmora, north to the Apsley area, 
+					and west to the Lindsay area.
+				</p>
+			</div>
+			<hr />
+			<!-- end intro text -->
+			<div class="row-fluid">
+				<div class="span12 well well-small">
+					<div class="span6 text-center">
+						<h4>New User?</h4>
+						<p>
+							Create a new account to create, edit, or review orders!
+						</p>
+					</div>
+					<div class="span6 text-center">
+						<h4>Returning User?</h4>
+						<p>
+							Already have an account? Login to review your existing orders or place a new order!
+						</p>
+					</div>
+					<div class="row-fluid">
+						<div class="span6 text-center">
+							<a href="/register" class="buttonLink">Register</a>
+						</div>
+						<div class="span6 text-center">
+							<a href="/login" class="buttonLink">Login</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+		<!-- right content -->
+		<div class="span4">
+			<!-- login div -->
+			<div id="loginArea">
+				<form id="form" action="" method="post" enctype="multipart/form-data">{% csrf_token %}
+		            {{ login_form.as_p }}
+		        <input class="buttonLink" type="submit" value="Login" />
+		        <p class="text-center">
+			        <label for="id_rememberMe">
+			        	<input type="checkbox" name="rememberMe" id="id_rememberMe" />Remember Me
+			        </label>
+		        </p>
+			    </form>
+			    <span id="forgotPass">
+			    	<a href="/register">register</a> | <a href="/forgot">forgot password?</a>
+			    </span>
+			</div>
+			<!-- end login div / start image div -->
+			<div id="imagesArea">
+				<p>
+					<small>Member of:</small>
+					<br/>
+					<a href="http://www.aicanada.ca/" target="_blank">
+						<img id="aicImage" alt="Appraisal Institute of Canada" title="Appraisal Institute of Canada" src="/static/pages/aic.png">
+					</a>
+				</p>
+			</div>
+		</div>
+	</div>
+{% endblock %}

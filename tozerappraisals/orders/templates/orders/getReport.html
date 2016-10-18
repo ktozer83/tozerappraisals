@@ -1,0 +1,21 @@
+{% extends 'pages/base.html' %}
+
+{% load static %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+<div class="row-fluid">
+    <div class="span9">
+        <p class="text-center">
+            Click the link below to download the report.<br/>
+            <a href="{% static 'pages/reports/' %}{{ report.file }}" download>{{ report.file }}</a>
+        </p>
+    </div>
+    <div id="controlPanel" class="span3 pull-right text-center">
+	<a href="/orders/" class="buttonLink">
+            <span class="ui-icon ui-icon-arrow-1-w"></span><span class="linkText">Back</span>
+	</a>
+    </div>
+</div>
+{% endblock %}

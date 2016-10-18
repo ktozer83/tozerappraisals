@@ -1,0 +1,111 @@
+{% extends 'pages/base.html' %}
+
+{% block title%}{{ page_title }}{% endblock %}
+
+{% block content %}
+	<!-- breadcrumb -->
+	<div class="row-fluid">
+		<div class="span12">
+			<ul class="breadcrumb">
+				<li><a href="/">Home</a> <span class="divider">/</span></li>
+				<li><a href="/users">Users</a> <span class="divider">/</span></li>
+				<li class="active">Pending</li>
+			</ul>
+		</div>
+	</div>
+		<div class="row-fluid">
+		<div class="offset1 span8">
+			{% if pending_users %}
+			<!-- list pending users as long as there are users -->
+		    <table class="table">
+		    	<thead>
+			        <tr>
+			        	{# id links #}
+			        	{% if sort_by == '-id' %}
+			        		<th class="sort_asc"><a href='/users/{{ pending_users.number }}/?sort=id'>ID</a></th>
+			        	{% elif sort_by == 'id' %}
+			        		<th class="sort_desc"><a href='/users/{{ pending_users.number }}/?sort=-id'>ID</a></th>
+			        	{% else %}
+			        		<th><a href='/users/{{ pending_users.number }}/?sort=-id'>ID</a></th>
+			        	{% endif %}
+			        	{# username links #}
+			        	{% if sort_by == '-username' %}
+			            	<th class="sort_asc"><a href='/users/{{ pending_users.number }}/?sort=username'>Username</a></th>
+			        	{% elif sort_by == 'username' %}
+			            	<th class="sort_dec"><a href='/users/{{ pending_users.number }}/?sort=-username'>Username</a></th>
+			            {% else %}
+			            	<th><a href='/users/{{ pending_users.number }}/?sort=-username'>Username</a></th>	
+			        	{% endif %}
+			        	{# email links #}
+			        	{% if sort_by == '-email' %}
+			            	<th class="sort_asc"><a href='/users/{{ pending_users.number }}/?sort=email'>Email</a></th>
+			        	{% elif sort_by == 'email' %}
+			            	<th class="sort_desc"><a href='/users/{{ pending_users.number }}/?sort=-email'>Email</a></th>
+			            {% else %}
+			            	<th><a href='/users/{{ pending_users.number }}/?sort=-email'>Email</a></th>
+			        	{% endif %}
+			        		<th>&nbsp;</th>
+			        </tr>
+		        </thead>
+		        <tbody>
+		        	{% for user in pending_users %}
+			        <tr class="tableRow noCursor">
+			        	<td>
+			        		{{ user.id }}
+			        	</td>
+			            <td>
+			                <a href="/user/{{ user.id }}">{{ user.username }}</a>
+			            </td>
+			            <td>
+			                {{ user.email }}
+			            </td>
+			            <td>
+			            	<a href="?u={{ user.username }}&c=approve"><span class="label label-success">Approve</span></a> 
+			            	<a href="?u={{ user.username }}&c=deny"><span class="label label-important">Deny</span></a>
+			            </td>
+			        </tr>
+			        {% endfor %}
+		        </tbody>
+		    </table>
+			<!-- pagination -->
+		    <div class="pagination">
+		        <p class="step-links">
+		            {% if pending_users.number != 1 and pending_users.number != 2 %}
+		            <!-- if current page is not first or second page display first page link -->
+		                <a href="/users/1{% if sort_by %}/?sort={{ sort_by }}{% endif %}">&lt;&lt;</a>
+		            {% endif %}
+		            {% if pending_users.has_previous %}
+		            <!-- previous page link if needed -->
+		                <a href="/users/{{ pending_users.previous_page_number }}{% if sort_by %}/?sort={{ sort_by }}{% endif %}">&lt;</a>
+		            {% endif %}
+		            <!-- display current page -->
+		            <span class="current">
+		                {{ pending_users.number }} of {{ pending_users.paginator.num_pages }}
+		            </span>
+		            {% if pending_users.has_next %}
+		            <!-- display next link if needed -->
+		                <a href="/users/{{ pending_users.next_page_number }}{% if sort_by %}/?sort={{ sort_by }}{% endif %}">&gt;</a>
+		            {% endif %}     
+		            {% if pending_users.number != pending_users.paginator.num_pages and pending_users.number != pending_users.paginator.num_pages|add:'-1' %}
+		            <!-- if current page is not last page or second last page display last page link -->
+		                <a href="/users/{{ pending_users.paginator.num_pages }}{% if sort_by %}/?sort={{ sort_by }}{% endif %}">&gt;&gt;</a>
+		            {% endif %}
+		        </p>
+		     </div>
+			{% else %}
+			<div class="offset3 span6 well well-small">
+				<p class="text-center">No Pending Users Found.</p>
+			</div>
+			{% endif %}
+		</div>
+		<div id="controlPanel" class="span3 pull-right text-center">
+			<a href="/user/create" class="buttonLink">
+				<span class="ui-icon ui-icon-plus"></span><span class="linkTest">Create User</span>
+			</a>
+			<br/>
+			<a href="/orders/" class="buttonLink">
+				<span class="ui-icon ui-icon-arrow-1-w"></span><span class="linkText">Back</span>
+			</a>
+		</div>
+	</div>	
+{% endblock%}

@@ -1,0 +1,132 @@
+{% extends 'pages/base.html' %}
+
+{% block title %}{{ page_title }}{% endblock %}
+
+{% block content %}
+	<div class="row-fluid">
+		<div class="span12">
+			<ul class="breadcrumb">
+				<li><a href="/orders">Orders</a><span class="divider"> / </span></li>
+				<li><a href="/order/{{ order.orderID }}">{{ order.address|title}}</a><span class="divider"> / </span></li>
+				<li class="active">Edit</li>
+			</ul>
+		</div>
+	</div>
+	<div class="row-fluid">
+		<div class="offset2 span6 well well-small">
+			<form method="post" action="" enctype="multipart/form-data">{% csrf_token %}
+				{{ edit_form.as_p }}
+				{% if perms.orders.view_any_order %}
+				<p>
+					<label for="id_contacted">Contacted:</label>
+					<select id="id_contacted" name="contacted">
+						<option value=0 {% if order.contacted == 0 %}selected="selected"{% endif %}>No</option>
+						<option value=1 {% if order.contacted == 1 %}selected="selected"{% endif %}>Yes</option>
+					</select>
+				</p>
+				<p>
+					<label for="id_status">Status:</label>
+					<select id="id_status" name="status">
+						<option value=0 {% if order.status == 0 %}selected="selected"{% endif %}>Pending</option>
+						<option value=1 {% if order.status == 1 %}selected="selected"{% endif %}>In Progress</option>
+						<option value=2 {% if order.status == 2 %}selected="selected"{% endif %}>Completed</option>
+						<option value=3 {% if order.status == 3 %}selected="selected"{% endif %}>Cancelled</option>
+					</select>
+				</p>
+				<span id="inspection">
+					<p>
+						<label for="id_inspectionDate">Inspection Date:</label>
+						<input id="id_inspectionDate" name="inspectionDate" type="text" value="{{ inspectionDate|join:'' }}" maxlength="10" />
+					</p>
+					<p>Inspection Time:</p>
+					<div class="row-fluid">
+						<div class="offset3 span2">
+							<p>
+								<input readonly="true" type="text" name="inspectionHour" id="inspectionHour" value="{{ inspectionHour|join:'' }}" style="border:0; color:#f6931f; font-weight:bold;">
+							</p>
+							<div id="hour-slider"></div>
+						</div>
+						<div class="span2">
+							<p>
+								<input readonly="true" type="text" name="inspectionMinute" id="inspectionMinute" style="border:0; color:#f6931f; font-weight:bold;">
+							</p>
+							<div id="min-slider"></div>
+						</div>
+						<div class="span4">
+							<p>
+								<input type="radio" id="inspectionPeriod_am" name="inspectionPeriod" value="a.m." {%if inspectionPeriod_am %}checked{% endif %}>
+								<label for="inspectionPeriod_am"> am</label>
+								<input type="radio" id="inspectionPeriod_pm" name="inspectionPeriod" value="p.m." {%if inspectionPeriod_pm %}checked{% endif %}>
+								<label for="inspectionPeriod_pm"> pm</label>
+							</p>
+						</div>
+					</div>
+				</span>
+				{% endif %}
+				<p>
+					<br/>
+					<label for="id_comments">Comments:</label>
+					<textarea id="id_comments" rows="10" name="comments" cols="40"></textarea>
+				</p>
+				<div class="row-fluid">
+					<div class="span6 text-center">
+						<a href="/order/{{ order.orderID }}" class="buttonLink">
+							<span class="ui-icon ui-icon-cancel"></span><span class="linkText">Cancel</span>
+						</a>
+					</div>
+					<div class="span6">
+						<button type="submit" class="buttonLink">
+							<span class="ui-icon ui-icon-check"></span><span class="linkText">Save</span>
+						</button>
+					</div>
+				</div>
+			</form>
+		</div>
+		<div id="controlPanel" class="span3 text-center">
+			<a href="/order/{{ order.orderID }}" class="buttonLink">
+				<span class="ui-icon ui-icon-arrow-1-w"></span><span class="linkText">Back</span>
+			</a>
+		</div>
+	</div>
+{% endblock %}
+
+{% block script %}
+ 	<script>
+		$(function() {
+			$( "#id_inspectionDate" ).datepicker({ gotoCurrent: true, dateFormat: "yy/mm/dd", minDate: "0w", maxDate: "+4w" });
+		});
+		$(function() {
+			$( "#id_dueDate" ).datepicker({ gotoCurrent: true, dateFormat: "yy/mm/dd", minDate: "0w", maxDate: "+8w" });
+		});
+		$(function() {
+			$( "#hour-slider" ).slider({
+				orientation: "vertical",
+				range: "max",
+				min: 1,
+				max: 12,
+				value: {{ inspectionHour|join:'' }},
+				slide: function( event, ui ) {
+					$( "#inspectionHour" ).val( ui.value );
+				}
+			});
+			$( "#inspectionHour" ).val( $( "#hour-slider" ).slider( "value" ) );
+		});
+		$(function() {
+			$( "#min-slider" ).slider({
+				orientation: "vertical",
+				range: "max",
+				min: 0,
+				max: 60,
+				value: {{ inspectionMinute|join:'' }},
+				step: 5,
+				slide: function( event, ui ) {
+					if(ui.value == "0") $( "#inspectionMinute" ).val( "00" );
+					if(ui.value == "5") $( "#inspectionMinute" ).val( "05" );
+					if(ui.value >= "10") $( "#inspectionMinute" ).val( ui.value );
+				}
+			});
+			$( "#inspectionMinute" ).val( $( "#min-slider" ).slider( "value" ) );
+		});
+	</script>
+{% endblock %}
+
